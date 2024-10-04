@@ -17,6 +17,12 @@ const { title } = Astro.props;
 		<meta name='description' content='Astro description' />
 		<meta name='viewport' content='width=device-width' />
 		<meta name='generator' content={Astro.generator} />
+		<link rel='preconnect' href='https://fonts.googleapis.com' />
+		<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin />
+		<link
+			href='https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@100;400;700&family=Barlow:wght@100;400&family=Bellefair&display=swap'
+			rel='stylesheet'
+		/>
 		<title>{title}</title>
 		<ViewTransitions />
 	</head>
@@ -30,8 +36,6 @@ const { title } = Astro.props;
 	</body>
 </html>
 <style is:global>
-	@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@100;400;700&family=Barlow:wght@100;400&family=Bellefair&display=swap');
-
 	:root {
 		/* Colors */
 		--blue: 230, 35%, 7%;
