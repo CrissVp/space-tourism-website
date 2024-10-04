@@ -1,0 +1,238 @@
+---
+const { pathname } = Astro.url;
+---
+
+<header class='header'>
+	<div class='logo'>
+		<a href='/space-tourism-website/'>
+			<img src='/space-tourism-website/icons/logo.svg' alt='Logo Image' />
+		</a>
+		<div class='separator'></div>
+	</div>
+	<nav class='navbar'>
+		<button menu-open>
+			<img src='/space-tourism-website/icons/icon-hamburger.svg' alt='Hamburger Icon' />
+		</button>
+
+		<div class='side_menu'>
+			<div class='menu_button'>
+				<button menu-close>
+					<img src='/space-tourism-website/icons/icon-close.svg' alt='' />
+				</button>
+			</div>
+			<div class='menu_links'>
+				<a
+					class={`barlow ${pathname === '/space-tourism-website/' ? 'active_link' : ''}`}
+					href='/space-tourism-website/'
+				>
+					<strong>00</strong>
+					<span>HOME</span>
+				</a>
+				<a
+					class={`barlow ${pathname.includes('destination') ? 'active_link' : ''}`}
+					href='/space-tourism-website/destination/1'
+				>
+					<strong>01</strong>
+					<span>DESTINATION</span>
+				</a>
+				<a
+					class={`barlow ${pathname.includes('crew') ? 'active_link' : ''}`}
+					href='/space-tourism-website/crew/1'
+				>
+					<strong>02</strong>
+					<span>CREW</span>
+				</a>
+				<a
+					class={`barlow ${pathname.includes('technology') ? 'active_link' : ''}`}
+					href='/space-tourism-website/technology/1'
+				>
+					<strong>03</strong>
+					<span>TECHNOLOGY</span>
+				</a>
+			</div>
+		</div>
+	</nav>
+</header>
+
+<script is:inline>
+	document.addEventListener('astro:page-load', () => {
+		const $openMenuButon = document.querySelector('.navbar [menu-open]');
+		const $closeMenuButton = document.querySelector('.side_menu [menu-close]');
+		const $side_menu = document.querySelector('.navbar .side_menu');
+
+		$openMenuButon.addEventListener('click', () => {
+			$side_menu.classList.add('visible');
+		});
+
+		$closeMenuButton.addEventListener('click', () => {
+			$side_menu.classList.remove('visible');
+		});
+	});
+</script>
+
+<style>
+	.header {
+		padding: 24px;
+		display: flex;
+		overflow: hidden;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.logo img {
+		height: 40px;
+		width: 40px;
+	}
+
+	.logo .separator {
+		display: none;
+	}
+
+	.side_menu {
+		width: 0;
+		position: fixed;
+		inset: 0;
+		z-index: 100;
+		overflow: hidden;
+		justify-self: flex-end;
+		transition: width 0.6s ease;
+		backdrop-filter: blur(30px);
+		background-color: hsla(var(--blue), 15%);
+	}
+
+	.visible {
+		width: 70%;
+	}
+
+	.menu_button {
+		display: flex;
+		padding: 32px;
+		margin-left: 32px;
+		justify-content: flex-end;
+	}
+
+	.menu_links {
+		gap: 32px;
+		display: flex;
+		margin-top: 48px;
+		margin-left: 32px;
+		flex-direction: column;
+	}
+
+	.menu_links a {
+		font-size: 16px;
+		text-wrap: nowrap;
+		letter-spacing: 2px;
+		color: hsl(var(--white));
+		text-decoration: none;
+		border-right: 2px solid transparent;
+	}
+
+	.menu_links .active_link {
+		border-right-color: hsl(var(--white));
+	}
+
+	.menu_links a:hover {
+		border-right-color: hsla(var(--white), 0.5);
+	}
+
+	@media (min-width: 641px) {
+		.header {
+			padding: 0;
+			align-items: center;
+		}
+
+		.header .logo {
+			display: flex;
+			min-width: 100px;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.header .logo img {
+			width: 48px;
+			height: 48px;
+		}
+
+		.navbar {
+			flex: 1;
+			display: flex;
+		}
+
+		.navbar [menu-open] {
+			display: none;
+		}
+
+		.side_menu {
+			width: 100%;
+			height: 96px;
+			transition: none;
+			position: relative;
+			backdrop-filter: blur(80px);
+			background-color: hsla(var(--white), 5%);
+		}
+
+		.side_menu .menu_button {
+			display: none;
+		}
+
+		.side_menu .menu_links {
+			margin: 0;
+			gap: 48px;
+			height: 100%;
+			flex-direction: row;
+			padding-inline: 40px;
+			justify-content: flex-end;
+		}
+
+		.menu_links a {
+			height: 100%;
+			border-right: none;
+			align-content: center;
+			border-bottom: 2px solid transparent;
+		}
+
+		.menu_links a:hover {
+			border-bottom-color: hsla(var(--white), 0.5);
+		}
+		.menu_links .active_link {
+			border-bottom-color: hsl(var(--white));
+		}
+	}
+
+	@media (min-width: 1024px) {
+		.header {
+			width: 100%;
+			margin: 0 auto;
+			max-width: 1440px;
+			padding-top: 40px;
+		}
+
+		.header .logo {
+			flex: 1;
+			gap: 64px;
+			padding-left: 64px;
+			justify-content: space-between;
+		}
+
+		.logo .separator {
+			height: 1px;
+			width: 100%;
+			display: block;
+			opacity: 0.25;
+			background-color: #979797;
+		}
+
+		.navbar {
+			flex: 0;
+		}
+
+		.side_menu {
+			width: fit-content;
+		}
+
+		.side_menu .menu_links {
+			padding-inline: 64px;
+		}
+	}
+</style>

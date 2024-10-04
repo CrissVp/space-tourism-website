@@ -1,0 +1,263 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import Layout from '../../layouts/Layout.astro';
+
+import type { GetStaticPaths, InferGetStaticPropsType } from 'astro';
+import { technology as technologies } from '../../data.json';
+import { Image } from 'astro:assets';
+
+export const getStaticPaths = (({ paginate }) => {
+	return paginate(technologies, { pageSize: 1 });
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { page } = Astro.props;
+const {
+	data: [technology]
+} = page;
+---
+
+<Layout title='Space Tourism | Technology'>
+	<PageLayout>
+		<Fragment slot='title'>
+			<span class='barlow'>03</span>
+			<h4 class='barlow'>SPACE LAUNCH 101</h4>
+		</Fragment>
+		<Fragment slot='content'>
+			<div class='content_image'>
+				<Image
+					src={technology.images.landscape}
+					class={'image_landscape'}
+					alt={technology.name}
+					loading={'eager'}
+					height={310}
+					width={768}
+				/>
+				<Image
+					src={technology.images.portrait}
+					class={'image_portrait'}
+					alt={technology.name}
+					loading={'eager'}
+					height={527}
+					width={600}
+				/>
+			</div>
+			<div class='content_explanation'>
+				<ul class='technologies_tab'>
+					{
+						technologies.map((_, index) => (
+							<li class={`${page.currentPage === index + 1 ? 'active_tab' : ''}`}>
+								<a class='bellefair' href={`/space-tourism-website/technology/${index + 1}`}>
+									{index + 1}
+								</a>
+							</li>
+						))
+					}
+				</ul>
+				<div class='technology_description'>
+					<span class='bellefair'>THE TERMINOLOGY...</span>
+					<h2 class='bellefair'>{technology.name}</h2>
+					<p class='barlow'>{technology.description}</p>
+				</div>
+			</div>
+		</Fragment>
+	</PageLayout>
+</Layout>
+
+<style>
+	:global(.page_container) {
+		background: url('/space-tourism-website/background/technology/background-technology-mobile.jpg'),
+			no-repeat;
+		background-position: right;
+		background-size: cover;
+	}
+
+	.content_image {
+		width: 100%;
+		height: 258px;
+		margin-top: 64px;
+		position: relative;
+	}
+
+	.content_image img {
+		object-position: top;
+		object-fit: cover;
+		position: absolute;
+		left: 50%;
+		height: 100%;
+		transform: translateX(-50%);
+	}
+
+	.image_landscape {
+		width: 660px;
+	}
+
+	.image_portrait {
+		display: none;
+	}
+
+	.content_explanation {
+		gap: 40px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.technologies_tab {
+		gap: 16px;
+		display: flex;
+		list-style: none;
+		justify-content: center;
+	}
+
+	.technologies_tab li a {
+		width: 40px;
+		height: 40px;
+		display: grid;
+		font-size: 18px;
+		border-radius: 50%;
+		place-content: center;
+		text-decoration: none;
+		color: hsl(var(--white));
+		background-color: transparent;
+		border: 1px solid hsla(var(--white), 0.25);
+	}
+
+	.technologies_tab .active_tab a {
+		color: hsl(var(--blue));
+		background-color: hsla(var(--white));
+	}
+
+	.technologies_tab li a:hover {
+		border: 1px solid hsl(var(--white));
+	}
+
+	.technology_description {
+		text-align: center;
+		max-width: 512px;
+	}
+
+	.technology_description span {
+		font-size: 18px;
+		color: hsla(var(--white), 0.5);
+	}
+
+	.technology_description h2 {
+		font-size: 24px;
+		margin-top: 16px;
+		color: hsl(var(--white));
+		text-transform: uppercase;
+	}
+
+	.technology_description p {
+		font-size: 15px;
+		margin-top: 16px;
+		line-height: 180%;
+		color: hsl(var(--light-blue));
+	}
+
+	@media (min-width: 641px) {
+		:global(.page_container) {
+			background: url('/space-tourism-website/background/technology/background-technology-tablet.jpg'),
+				no-repeat;
+			background-position: right;
+			background-size: cover;
+		}
+
+		.content_image {
+			height: 356px;
+		}
+
+		.image_landscape {
+			display: none;
+		}
+
+		.content_image .image_portrait {
+			display: block;
+			min-width: 768px;
+			object-position: 50% 60%;
+		}
+
+		.technologies_tab li a {
+			width: 56px;
+			height: 56px;
+			font-size: 24px;
+		}
+
+		.technology_description span {
+			font-size: 24px;
+		}
+
+		.technology_description h2 {
+			font-size: 40px;
+		}
+
+		.technology_description p {
+			font-size: 16px;
+		}
+	}
+
+	@media (min-width: 1024px) {
+		:global(.page_container) {
+			background: url('/space-tourism-website/background/technology/background-technology-desktop.jpg'),
+				no-repeat;
+			background-position: right;
+			background-size: cover;
+		}
+
+		.content_image {
+			flex: 1;
+			order: 2;
+			height: 100%;
+			margin-top: 0;
+			max-width: 40%;
+			display: flex;
+			align-items: center;
+			justify-content: flex-end;
+		}
+
+		.content_image .image_portrait {
+			min-width: unset;
+			height: 600px;
+			width: 100%;
+		}
+
+		.content_image img {
+			position: static;
+			transform: unset;
+		}
+
+		.content_explanation {
+			flex: 1;
+			height: 100%;
+			flex-direction: row;
+		}
+
+		.technologies_tab {
+			gap: 32px;
+			flex-direction: column;
+		}
+
+		.technologies_tab li a {
+			width: 80px;
+			height: 80px;
+		}
+
+		.technology_description {
+			text-align: start;
+		}
+
+		.technology_description span {
+			font-size: 32px;
+		}
+
+		.technology_description h2 {
+			font-size: 56px;
+		}
+
+		.technology_description p {
+			font-size: 18px;
+		}
+	}
+</style>

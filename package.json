@@ -1,0 +1,17 @@
+{
+	"name": "space-tourism-website",
+	"type": "module",
+	"version": "0.0.1",
+	"scripts": {
+		"astro": "astro",
+		"dev": "astro dev",
+		"start": "astro dev",
+		"build": "astro build",
+		"preview": "astro preview",
+		"dev:host": "astro dev --host"
+	},
+	"dependencies": {
+		"astro": "^4.15.9"
+	}
+}
+

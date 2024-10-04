@@ -1,0 +1,86 @@
+<div class='main_content'>
+	<section class='page_title'>
+		<slot name='title' />
+	</section>
+	<section class='page_content'>
+		<slot name='content' />
+	</section>
+</div>
+
+<style>
+	.main_content {
+		flex: 1;
+		gap: 24px;
+		padding: 24px;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.page_title {
+		gap: 24px;
+		display: flex;
+		font-size: 16px;
+		letter-spacing: 2px;
+		justify-content: center;
+		color: hsl(var(--white));
+
+		span {
+			opacity: 0.25;
+			font-weight: 700;
+		}
+	}
+
+	.page_content {
+		gap: 32px;
+		display: flex;
+		flex-direction: column;
+	}
+
+	@media (min-width: 641px) {
+		.main_content {
+			padding: 40px;
+		}
+
+		.page_title {
+			font-size: 20px;
+			justify-content: flex-start;
+		}
+
+		.page_content {
+			align-items: center;
+		}
+	}
+
+	@media (min-width: 1024px) {
+		.main_content {
+			gap: 24px;
+			margin: 0 auto;
+			max-width: 1110px;
+			padding: 48px 24px;
+		}
+
+		.main_content:has(.image_portrait) {
+			margin-right: 0;
+			padding-right: 0;
+			max-width: 1275px;
+		}
+
+		.page_title {
+			font-size: 28px;
+			letter-spacing: 4px;
+		}
+
+		.page_content {
+			flex: 1;
+			flex-direction: row;
+			justify-content: space-between;
+		}
+	}
+
+	@media (min-width: 1600px) {
+		.main_content:has(.image_portrait) {
+			margin-right: auto;
+			padding-right: 24px;
+		}
+	}
+</style>

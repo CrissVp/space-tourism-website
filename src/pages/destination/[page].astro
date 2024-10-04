@@ -1,0 +1,239 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import Layout from '../../layouts/Layout.astro';
+
+import type { GetStaticPaths, InferGetStaticPropsType } from 'astro';
+import { destinations } from '../../data.json';
+import { Image } from 'astro:assets';
+
+export const getStaticPaths = (({ paginate }) => {
+	return paginate(destinations, { pageSize: 1 });
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { page } = Astro.props;
+const {
+	data: [destination]
+} = page;
+---
+
+<Layout title='Space Tourism | Destianations'>
+	<PageLayout>
+		<Fragment slot='title'>
+			<span class='barlow'>01</span>
+			<h4 class='barlow'>PICK YOUR DESTINATION</h4>
+		</Fragment>
+		<Fragment slot='content'>
+			<div class='content_image'>
+				<Image
+					alt={`${destination.name} Image`}
+					src={destination.images.webp}
+					loading={'eager'}
+					height={150}
+					width={150}
+				/>
+			</div>
+			<div class='content_explanation'>
+				<ul class='destinations_tab'>
+					{
+						destinations.map((destination, index) => (
+							<li class={`barlow ${page.currentPage === index + 1 ? 'active_tab' : ''}`}>
+								<a href={`/space-tourism-website/destination/${index + 1}`}>{destination.name}</a>
+							</li>
+						))
+					}
+				</ul>
+				<div class='destination_description'>
+					<h2 class='bellefair'>{destination.name}</h2>
+					<p class='barlow'>{destination.description}</p>
+				</div>
+				<div class='separator'></div>
+				<div class='destination_statistics'>
+					<div class='statistic'>
+						<span class='barlow'>AVG. DISTANCE</span>
+						<h4 class='bellefair'>{destination.distance}</h4>
+					</div>
+					<div class='statistic'>
+						<span class='barlow'>EST. TRAVEL TIME</span>
+						<h4 class='bellefair'>{destination.travel}</h4>
+					</div>
+				</div>
+			</div>
+		</Fragment>
+	</PageLayout>
+</Layout>
+
+<style>
+	:global(.page_container) {
+		background: linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08)),
+			url('/space-tourism-website/background/destination/background-destination-mobile.jpg'),
+			no-repeat, center;
+		background-size: cover;
+	}
+
+	.separator {
+		height: 1px;
+		width: 100%;
+		opacity: 0.25;
+		background-color: #979797;
+	}
+
+	.content_image {
+		display: grid;
+		padding-block: 24px;
+		place-content: center;
+	}
+
+	.content_image img {
+		width: 150px;
+		height: 150px;
+	}
+
+	.content_explanation,
+	.destination_statistics {
+		gap: 24px;
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+	}
+
+	.destinations_tab {
+		gap: 32px;
+		display: flex;
+		list-style: none;
+	}
+
+	.destinations_tab li a {
+		font-size: 14px;
+		padding-bottom: 8px;
+		letter-spacing: 2px;
+		text-decoration: none;
+		color: hsl(var(--light-blue));
+		border-bottom: 2px solid transparent;
+	}
+
+	.destinations_tab .active_tab a {
+		color: hsl(var(--white));
+		border-bottom: 2px solid hsl(var(--white));
+	}
+
+	.destinations_tab li a:hover {
+		color: hsl(var(--white));
+		border-bottom-color: hsla(var(--white), 0.5);
+	}
+
+	.destination_description,
+	.statistic {
+		gap: 16px;
+		display: flex;
+		text-align: center;
+		flex-direction: column;
+	}
+
+	.destination_description h2 {
+		font-size: 56px;
+		color: hsl(var(--white));
+		text-transform: uppercase;
+	}
+
+	.destination_description p {
+		font-size: 15px;
+		line-height: 180%;
+		text-wrap: pretty;
+		color: hsl(var(--light-blue));
+	}
+
+	.statistic {
+		gap: 12px;
+		font-size: 14px;
+		letter-spacing: 2px;
+		color: hsl(var(--light-blue));
+	}
+
+	.statistic h4 {
+		font-size: 28px;
+		letter-spacing: 0;
+		color: hsl(var(--white));
+		text-transform: uppercase;
+	}
+
+	@media (min-width: 641px) {
+		:global(.page_container) {
+			background: linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08)),
+				url('/space-tourism-website/background/destination/background-destination-tablet.jpg'),
+				no-repeat, center;
+			background-size: cover;
+		}
+
+		.content_image img {
+			width: 300px;
+			height: 300px;
+		}
+
+		.content_explanation {
+			max-width: 514px;
+		}
+
+		.destinations_tab li a {
+			font-size: 16px;
+		}
+
+		.destination_description h2 {
+			font-size: 80px;
+		}
+
+		.destination_description p {
+			font-size: 16px;
+		}
+
+		.destination_statistics {
+			width: 100%;
+			flex-direction: row;
+		}
+
+		.statistic {
+			flex: 1;
+		}
+	}
+
+	@media (min-width: 1024px) {
+		:global(.page_container) {
+			background: linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08)),
+				url('/space-tourism-website/background/destination/background-destination-desktop.jpg'),
+				no-repeat, center;
+			background-size: cover;
+		}
+
+		.content_image {
+			padding: 24px;
+		}
+
+		.content_image img {
+			width: 480px;
+			height: 480px;
+		}
+
+		.content_explanation {
+			gap: 40px;
+			max-width: 445px;
+			align-items: flex-start;
+		}
+
+		.destination_description {
+			text-align: start;
+		}
+
+		.destination_description h2 {
+			font-size: 96px;
+		}
+
+		.destination_description p {
+			font-size: 18px;
+		}
+
+		.statistic {
+			text-align: start;
+		}
+	}
+</style>

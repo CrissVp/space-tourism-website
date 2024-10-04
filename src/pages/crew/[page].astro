@@ -1,0 +1,213 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import Layout from '../../layouts/Layout.astro';
+
+import type { GetStaticPaths, InferGetStaticPropsType } from 'astro';
+import { crew } from '../../data.json';
+import { Image } from 'astro:assets';
+
+export const getStaticPaths = (({ paginate }) => {
+	return paginate(crew, { pageSize: 1 });
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { page } = Astro.props;
+const {
+	data: [member]
+} = page;
+---
+
+<Layout title='Space Tourism | Crew'>
+	<PageLayout>
+		<Fragment slot='title'>
+			<span class='barlow'>02</span>
+			<h4 class='barlow'>MEET YOUR CREW</h4>
+		</Fragment>
+		<Fragment slot='content'>
+			<div class='content_explanation'>
+				<div class='member_description'>
+					<span class='bellefair'>{member.role}</span>
+					<h2 class='bellefair'>{member.name}</h2>
+					<p class='barlow'>{member.bio}</p>
+				</div>
+				<ul class='members_tab'>
+					{
+						crew.map((_, index) => (
+							<li class={`${page.currentPage === index + 1 ? 'active_tab' : ''}`}>
+								<a href={`/space-tourism-website/crew/${index + 1}`} />
+							</li>
+						))
+					}
+				</ul>
+			</div>
+			<div class='content_image'>
+				<Image
+					alt={`${member.name} Image`}
+					src={member.images.webp}
+					loading={'eager'}
+					height={150}
+					width={150}
+				/>
+			</div>
+		</Fragment>
+	</PageLayout>
+</Layout>
+
+<style>
+	:global(.page_container) {
+		background: url('/space-tourism-website/background/crew/background-crew-mobile.jpg'), no-repeat,
+			center;
+		background-size: cover;
+	}
+
+	.content_explanation {
+		gap: 24px;
+		display: flex;
+		padding-top: 40px;
+		flex-direction: column;
+	}
+
+	.member_description {
+		text-align: center;
+		text-transform: uppercase;
+	}
+
+	.member_description span {
+		font-size: 18px;
+		color: hsla(var(--white), 0.5);
+	}
+
+	.member_description h2 {
+		font-size: 24px;
+		margin-top: 8px;
+		color: hsl(var(--white));
+	}
+
+	.member_description p {
+		font-size: 15px;
+		line-height: 180%;
+		text-wrap: pretty;
+		text-transform: none;
+		margin-block: 24px 12px;
+		color: hsl(var(--light-blue));
+	}
+
+	.members_tab {
+		gap: 16px;
+		display: flex;
+		list-style: none;
+		justify-content: center;
+	}
+
+	.members_tab li a {
+		width: 10px;
+		height: 10px;
+		display: block;
+		border-radius: 50%;
+		background-color: hsla(var(--white), 0.2);
+	}
+
+	.members_tab li a:hover {
+		background-color: hsla(var(--white), 0.5);
+	}
+
+	.members_tab .active_tab a {
+		background-color: hsl(var(--white));
+	}
+
+	.content_image {
+		display: grid;
+		padding-block: 5px;
+		place-content: center;
+	}
+
+	.content_image img {
+		width: 270px;
+		height: 340px;
+		mask-image: linear-gradient(hsla(0, 0%, 85%, 1) 77%, transparent);
+	}
+
+	@media (min-width: 641px) {
+		:global(.page_container) {
+			background: url('/space-tourism-website/background/crew/background-crew-tablet.jpg'),
+				no-repeat, center;
+			background-size: cover;
+		}
+
+		.content_explanation {
+			max-width: 512px;
+		}
+
+		.member_description span {
+			font-size: 24px;
+		}
+
+		.member_description h2 {
+			font-size: 40px;
+			margin-top: 16px;
+		}
+
+		.member_description p {
+			font-size: 16px;
+		}
+
+		.content_image img {
+			height: 560px;
+			width: auto;
+		}
+	}
+
+	@media (min-width: 1024px) {
+		:global(.page_container) {
+			background: url('/space-tourism-website/background/crew/background-crew-desktop.jpg'),
+				no-repeat, center;
+			background-size: cover;
+		}
+
+		.content_explanation {
+			gap: 40px;
+			height: 100%;
+			max-width: 640px;
+			justify-content: space-between;
+		}
+
+		.member_description {
+			flex: 1;
+			display: flex;
+			text-align: start;
+			flex-direction: column;
+			justify-content: center;
+		}
+
+		.member_description span {
+			font-size: 32px;
+		}
+
+		.member_description h2 {
+			font-size: 56px;
+		}
+
+		.member_description p {
+			font-size: 18px;
+		}
+
+		.members_tab {
+			gap: 40px;
+			padding-bottom: 48px;
+			justify-content: flex-start;
+		}
+
+		.members_tab li a {
+			width: 15px;
+			height: 15px;
+		}
+
+		.content_image img {
+			width: auto;
+			height: 670px;
+			max-width: 560px;
+			object-fit: cover;
+		}
+	}
+</style>

@@ -1,0 +1,84 @@
+---
+interface Props {
+	title: string;
+}
+
+import { ViewTransitions } from 'astro:transitions';
+import Header from '../components/Header.astro';
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang='en'>
+	<head>
+		<meta charset='UTF-8' />
+		<link rel='icon' type='image/svg+xml' href='/space-tourism-website/favicon-32x32.png' />
+		<meta name='description' content='Astro description' />
+		<meta name='viewport' content='width=device-width' />
+		<meta name='generator' content={Astro.generator} />
+		<title>{title}</title>
+		<ViewTransitions />
+	</head>
+	<body>
+		<div class='page_container'>
+			<Header />
+			<main>
+				<slot />
+			</main>
+		</div>
+	</body>
+</html>
+<style is:global>
+	@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@100;400;700&family=Barlow:wght@100;400&family=Bellefair&display=swap');
+
+	:root {
+		/* Colors */
+		--blue: 230, 35%, 7%;
+		--light-blue: 231, 77%, 90%;
+		--white: 0, 0%, 100%;
+
+		color-scheme: dark light;
+	}
+
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+
+	body {
+		width: 100%;
+		min-height: 100dvh;
+	}
+
+	.page_container {
+		display: flex;
+		min-height: 100dvh;
+		flex-direction: column;
+	}
+
+	button {
+		border: none;
+		outline-color: transparent;
+		background-color: transparent;
+	}
+
+	main {
+		flex: 1;
+		display: flex;
+		overflow: hidden;
+	}
+
+	.bellefair {
+		font-family: 'Bellefair', serif;
+		font-weight: 400;
+		font-style: normal;
+	}
+
+	.barlow {
+		font-family: 'Barlow Condensed', sans-serif;
+		font-weight: 400;
+		font-style: normal;
+	}
+</style>
